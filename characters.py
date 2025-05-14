@@ -24,6 +24,11 @@ class Character:
     def __repr__(self):
         return self.name
     
+    # This will reset the Character fully
+    def reset(self):
+        self.health = self.max_health
+        self.team_members = []
+    
     # This will add a Character as a Team Member
     def add_team_member(self, ally):
         if isinstance(ally, list):

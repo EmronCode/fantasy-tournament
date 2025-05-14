@@ -1,4 +1,5 @@
 from characters import Character
+from match import play
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -25,3 +26,11 @@ JungleTorch = [Goat, Stone, Beastie, Peachy]
 all_teams = [LavaBolt, SpaceRock, FrostHammer, JungleTorch]
 
 print(all_teams)
+
+play(LavaBolt, SpaceRock)
+play(FrostHammer, JungleTorch)
+
+
+LavaBolt = [Gold, Akame, Emron, Jinxx]
+FrostHammer = [Ghost, Lotus, Fury, Galaxy]
+play(LavaBolt, FrostHammer)

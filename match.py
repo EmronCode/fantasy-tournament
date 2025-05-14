@@ -1,3 +1,5 @@
+from combat import take_action, determine_character_list
+
 # Will return a list from fastest to slowest Characters
 def set_turn_list(t1, t2):
     character_list = t1 + t2
@@ -24,6 +26,59 @@ def quick_add_team_member(team):
     for character in team_list:
         character.add_team_member([member for member in team_list if member != character])
 
+# Will quickly reset all the Characters
+def quick_reset_all(team):
+    team_list = list(team)
+    for character in team_list:
+        character.reset()        
+
+# Will check to see if a team has won
+def win(t1, t2, whole_team, team):
+    print("WINNERS: " + ", ".join(str(character) for character in whole_team))
+    print("STILL STANDING: " + ", ".join(str(character) for character in team))
+
 # Will play a simulation of a single fight
 def play(whole_t1, whole_t2):
-    set_turn_list(whole_t1, whole_t2)
+    t1 = list(whole_t1)
+    t2 = list(whole_t2)
+
+    turn_list = set_turn_list(t1, t2)
+
+    alive_t1 = len(t1)
+    alive_t2 = len(t2)
+
+    game_over = False
+
+    quick_reset_all(t1)
+    quick_reset_all(t2)
+
+    quick_add_team_member(t1)
+    quick_add_team_member(t2)
+
+    while alive_t1 > 0 and alive_t2 > 0:
+        for character in turn_list:
+            if not game_over:
+                if character.health > 0 and alive_t1 > 0 and alive_t2 > 0:
+                    take_action(determine_character_list(t1, t2, character), character)
+
+            alive_t1 = len(t1)
+            alive_t2 = len(t2)
+            game_over = alive_t1 < 1 or alive_t2 < 1
+
+        print("END OF TURNS")
+        print(" ")
+        print("Character's HEALTH")
+        turn_list = set_turn_list(t1, t2)
+
+        for character in turn_list:
+            print(character.name + ": " + str(character.health))
+
+        print(" ")
+        print(" ")
+        print(" ")
+
+    if alive_t1 > 0:
+        win(whole_t1, whole_t2, whole_t1, t1)
+
+    if alive_t2 > 0:
+        win(whole_t1, whole_t2, whole_t2, t2)
