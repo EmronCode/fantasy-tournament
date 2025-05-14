@@ -20,3 +20,15 @@ class Character:
     # When a list is printed that contains a Character Object, the Character's name will display
     def __repr__(self):
         return self.name
+    
+    # Dictionary for the Class priority order
+    def targeting(self):
+        priority_dict = {
+            "Warrior": ["Mage", "Warrior", "Rogue", "Cleric", "Archer"],
+            "Mage": ["Warrior", "Mage", "Cleric", "Archer", "Rogue"],
+            "Rogue": ["Archer", "Cleric", "Mage", "Rogue", "Warrior"],
+            "Archer": ["Cleric", "Rogue", "Warrior", "Archer", "Mage"],
+            "Cleric": ["Mage", "Warrior", "Rogue", "Archer", "Cleric"]
+        }
+
+        return priority_dict[self.role]
