@@ -15,6 +15,7 @@ class Character:
         self.element_2 = element_2
         self.team_members = []
         self.targeting_order = self.targeting()
+        self.heal_count = 0
 
     # When a Character Object is printed, it will display their name
     def __str__(self):
@@ -28,6 +29,7 @@ class Character:
     def reset(self):
         self.health = self.max_health
         self.team_members = []
+        self.heal_count = 0
     
     # This will add a Character as a Team Member
     def add_team_member(self, ally):
@@ -53,10 +55,14 @@ class Character:
 
     # This will heal a Character for 10 HP
     def heal(self, ally):
-        ally.health += 10
+        # Limits the heal move to a total 64 times per match
+        if self.heal_count < 64:
+            self.heal_count += 1
 
-        if ally.health > ally.max_health:
-            ally.health = ally.max_health
+            ally.health += 10
+
+            if ally.health > ally.max_health:
+                ally.health = ally.max_health
 
     # Dictionary for the Class priority order
     def targeting(self):
