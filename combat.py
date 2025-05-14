@@ -14,9 +14,16 @@ def get_moves(character):
 def determine_target(character_list, targeter):
     priority_order = targeter.targeting_order
     index = 0
+    is_Cleric = targeter.role == "Cleric" and any(ally in targeter.team_members and ally.health > 0 for ally in character_list)
     
     while index < len(targeter.targeting_order):
-        target_list = [character for character in character_list if 
+        if is_Cleric:
+            target_list = [character for character in character_list if 
+                           character.role == priority_order[index] and
+                           character.health < character.max_health and
+                           character.health > 0]
+        else:
+            target_list = [character for character in character_list if 
                            character.role == priority_order[index] and
                            character.health > 0]
         
@@ -87,3 +94,16 @@ def take_action(team, character):
         else:
             # No one to heal, so Cleric's can attack instead (for a single point of damage)
             character.deal_damage(target, "strength")
+
+# This will obtain the correct team for the Character to use their action on
+def determine_character_list(t1, t2, character):
+    if character.role == "Cleric":
+        # If at least one ally is alive and not at full health, return team_members for AoE heal
+        if any(0 < ally.health < ally.max_health for ally in character.team_members):
+            return character.team_members
+        
+    if character in t1:
+        return t2
+    
+    if character in t2:
+        return t1

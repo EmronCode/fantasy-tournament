@@ -1,5 +1,6 @@
 from characters import Character
-from combat import get_moves, determine_target, select_move, take_action
+from combat import get_moves, determine_target, select_move, take_action, determine_character_list
+from match import quick_add_team_member
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -19,6 +20,11 @@ Akame = Character("Akame", "Warrior", 100, 31, 20, 12, 10, 6, "Fire", "Dark")
 Emron = Character("Emron", "Warrior", 100, 31, 15, 15, 10, 4, "Fire", "Earth")
 
 debug_team = [Emron, Jinxx, Lotus, Goat]
+
+LavaBolt = [Gold, Akame, Emron, Jinxx]
+SpaceRock = [Shortie, Sun, Night, Moon]
+FrostHammer = [Ghost, Lotus, Fury, Galaxy]
+JungleTorch = [Goat, Stone, Beastie, Peachy]
 
 # Test get_moves()
 print(get_moves(Emron))
@@ -57,3 +63,16 @@ print("Night Attacks!")
 print(str(Gold) + ' ' + str(Gold.health) + '/' + str(Gold.max_health))
 print(str(Jinxx) + ' ' + str(Jinxx.health) + '/' + str(Jinxx.max_health))
 print(str(Shortie) + ' ' + str(Shortie.health) + '/' + str(Shortie.max_health))
+
+
+# Test determine_character_lists
+quick_add_team_member(LavaBolt)
+quick_add_team_member(SpaceRock)
+
+print(determine_character_list(LavaBolt, SpaceRock, Emron))
+print(determine_character_list(LavaBolt, SpaceRock, Night))
+
+# Check if Cleric works as intended
+print(determine_character_list(LavaBolt, SpaceRock, Moon)) # No one is hurt, thus return LavaBolt
+take_action([Shortie], Gold)
+print(determine_character_list(LavaBolt, SpaceRock, Moon)) # Shortie is hurt, thus return Moon's team members
