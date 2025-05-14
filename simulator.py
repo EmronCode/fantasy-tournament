@@ -2,6 +2,7 @@ import os
 import json
 import random
 import copy
+from itertools import combinations
 from characters import Character
 from match import play
 
@@ -70,5 +71,35 @@ def simulate_battle(num_battles=1000):
             # Simulate a battle
             play(team1, team2)
 
+# Simulate every single battle (avoid repeat matchs and no match should have the same two or more Characters)
+def simulate_all_battles():
+    # Store past matchups to avoid repeats
+    used_matchups = set()
+
+    # Generate all possible unique teams of 4 characters
+    all_possible_teams = list(combinations(character_list, 4))
+
+    # Iterate through all possible team1-team2 matchups
+    for team1 in all_possible_teams:
+        remaining_characters = [char for char in character_list if char not in team1]
+
+        # Generate valid team2 options
+        for team2 in combinations(remaining_characters, 4):  
+            matchup = frozenset([tuple(team1), tuple(team2)])
+
+            # Ensure no repeat battles
+            if matchup not in used_matchups:
+                used_matchups.add(matchup)
+
+                # Clone teams to reset character stats before battle
+                team1_copy = [copy.deepcopy(char) for char in team1]
+                team2_copy = [copy.deepcopy(char) for char in team2]
+
+                # Simulate the battle
+                play(team1_copy, team2_copy)
+
 # Run simulate_battle()
-simulate_battle(1000)
+# simulate_battle(1000)
+
+# Run simulate_all_battles()
+simulate_all_battles()
