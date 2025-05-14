@@ -1,5 +1,5 @@
 from characters import Character
-from combat import get_moves, determine_target, select_move, take_action, determine_character_list
+from combat import get_moves, determine_target, select_move, take_action, determine_character_list, ko_character
 from match import quick_add_team_member
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
@@ -33,12 +33,16 @@ print(get_moves(Beastie))
 
 print(" ")
 
+
+
 # Test determine_target()
 print(determine_target(debug_team, Emron))
 print(determine_target(debug_team, Galaxy))
 print(determine_target(debug_team, Beastie))
 
 print(" ")
+
+
 
 # Test select_move()
 print(select_move(Emron, Sun)) # Class = Warrior, thus Physical
@@ -48,6 +52,8 @@ print(select_move(Goat, Peachy)) # STR = 31, MG_PW = 20, thus Physical
 print(select_move(Beastie, Stone)) # Class = Cleric, thus Heal
 
 print(" ")
+
+
 
 # Test take_action()
 # Before Team Health
@@ -64,6 +70,9 @@ print(str(Gold) + ' ' + str(Gold.health) + '/' + str(Gold.max_health))
 print(str(Jinxx) + ' ' + str(Jinxx.health) + '/' + str(Jinxx.max_health))
 print(str(Shortie) + ' ' + str(Shortie.health) + '/' + str(Shortie.max_health))
 
+print(" ")
+
+
 
 # Test determine_character_lists
 quick_add_team_member(LavaBolt)
@@ -76,3 +85,13 @@ print(determine_character_list(LavaBolt, SpaceRock, Night))
 print(determine_character_list(LavaBolt, SpaceRock, Moon)) # No one is hurt, thus return LavaBolt
 take_action([Shortie], Gold)
 print(determine_character_list(LavaBolt, SpaceRock, Moon)) # Shortie is hurt, thus return Moon's team members
+
+print(" ")
+
+
+
+# Test ko_character()
+print(LavaBolt)
+Jinxx.health = 0
+ko_character(LavaBolt, Jinxx)
+print(LavaBolt)

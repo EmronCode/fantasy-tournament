@@ -107,3 +107,12 @@ def determine_character_list(t1, t2, character):
     
     if character in t2:
         return t1
+
+# Checks if a Character is KO
+def check_ko(character):
+    return character.health < 1
+
+# Removes Character from their team upon KO
+def ko_character(team, character):
+    if check_ko(character):
+        team.remove(character)
