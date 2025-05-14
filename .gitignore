@@ -1,0 +1,26 @@
+# Byte-compiled / cached files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs and database files
+*.log
+*.sqlite3
+
+# IDE and editor specific files
+.vscode/
+.idea/
+*.swp
+
+# Ignore large data files
+data/battle_data.json
+data/battle_data_preview.csv
