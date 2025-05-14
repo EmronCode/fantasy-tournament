@@ -4,7 +4,7 @@ import random
 import copy
 from itertools import combinations
 from characters import Character
-from match import play
+from match import temp_log, play
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -107,3 +107,27 @@ def simulate_all_battles():
 
 # Run simulate_all_battles()
 simulate_all_battles()
+
+# Final save since the system only saves 450,000/450,450
+if temp_log:
+    try:
+        if os.path.exists(BATTLE_LOG_FILE):
+            with open(BATTLE_LOG_FILE, "r") as f:
+                try:
+                    battle_data = json.load(f)
+                except json.JSONDecodeError:
+                    print("Error: battle_data.json is corrupted. Starting fresh.")
+                    battle_data = []
+        else:
+            battle_data = []
+
+        battle_data.extend(temp_log)
+
+        with open(BATTLE_LOG_FILE, "w") as f:
+            json.dump(battle_data, f, indent=4)
+
+        print(f"Final save completed. {len(temp_log)} remaining battles were saved.")
+        temp_log.clear()
+
+    except Exception as e:
+        print(f"Error during final save: {e}")
