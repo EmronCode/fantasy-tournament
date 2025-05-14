@@ -71,6 +71,10 @@ def simulate_battle(num_battles=1000):
             # Simulate a battle
             play(team1, team2)
 
+# Generate a consistent hash using sorted Character names
+def hash_matchup(team1, team2):
+    return hash(frozenset([tuple(sorted(char.name for char in team1)), tuple(sorted(char.name for char in team2))]))
+
 # Simulate every single battle (avoid repeat matchs and no match should have the same two or more Characters)
 def simulate_all_battles():
     # Store past matchups to avoid repeats
@@ -84,19 +88,15 @@ def simulate_all_battles():
         remaining_characters = [char for char in character_list if char not in team1]
 
         # Generate valid team2 options
-        for team2 in combinations(remaining_characters, 4):  
-            matchup = frozenset([tuple(team1), tuple(team2)])
+        for team2 in combinations(remaining_characters, 4):
+            matchup_hash = hash_matchup(team1, team2)
 
-            # Ensure no repeat battles
-            if matchup not in used_matchups:
-                used_matchups.add(matchup)
+            # Ensure battle hasn't been played before
+            if matchup_hash not in used_matchups:
+                used_matchups.add(matchup_hash)
 
-                # Clone teams to reset character stats before battle
-                team1_copy = [copy.deepcopy(char) for char in team1]
-                team2_copy = [copy.deepcopy(char) for char in team2]
-
-                # Simulate the battle
-                play(team1_copy, team2_copy)
+                # Use the original objects instead of deepcopies
+                play(team1, team2)
 
 # Run simulate_battle()
 # simulate_battle(1000)
