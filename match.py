@@ -6,8 +6,19 @@ from combat import take_action, determine_character_list
 DATA_FOLDER = "data"
 BATTLE_LOG_FILE = os.path.join(DATA_FOLDER, "battle_data.json")
 
-# Ensure data folder exists
-os.makedirs(DATA_FOLDER, exist_ok=True)
+# Temporary cache to store battles before writing
+temp_log = []
+LOG_INTERVAL = 10000
+
+# Load existing data
+if os.path.exists(BATTLE_LOG_FILE):
+    with open(BATTLE_LOG_FILE, "r") as f:
+        try:
+            battle_log = json.load(f)
+        except json.JSONDecodeError:
+            battle_log = []
+else:
+    battle_log = []
 
 # Will return a list from fastest to slowest Characters
 def set_turn_list(t1, t2):
@@ -95,24 +106,39 @@ def play(whole_t1, whole_t2):
 
 # Logs the battle results
 def log_battle(t1, t2, winner, survivor):
-    # Load existing data
-    if os.path.exists(BATTLE_LOG_FILE):
-        with open(BATTLE_LOG_FILE, "r") as f:
-            try:
-                battle_log = json.load(f)
-            except json.JSONDecodeError:
-                battle_log = []
-    else:
-        battle_log = []
+    global temp_log
 
     # Append new battle data
-    battle_log.append({
+    temp_log.append({
         "team1": [character.name for character in t1],
         "team2": [character.name for character in t2],
         "winner": [character.name for character in winner],
         "survivor": [character.name for character in survivor],
     })
 
-    # Save updated battle log
-    with open(BATTLE_LOG_FILE, "w") as f:
-        json.dump(battle_log, f, indent=4)
+    # Log every LOG_INTERVAL battles
+    if len(temp_log) >= LOG_INTERVAL:
+        try:
+            # Check if file exists
+            # Load existing data
+            if os.path.exists(BATTLE_LOG_FILE):
+                with open(BATTLE_LOG_FILE, "r") as f:
+                    try:
+                        battle_log = json.load(f)
+                    except json.JSONDecodeError:
+                        battle_log = []
+            else:
+                battle_log = []
+
+            # Append the new data
+            battle_log.extend(temp_log)
+
+            # Write back the entire updated data
+            with open(BATTLE_LOG_FILE, "w") as f:
+                json.dump(battle_log, f, indent=4)
+
+            # Clear temp_log
+            temp_log.clear()
+
+        except Exception as e:
+            pass
