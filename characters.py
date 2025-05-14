@@ -12,6 +12,7 @@ class Character:
         self.speed = speed
         self.element_1 = element_1
         self.element_2 = element_2
+        self.team_members = []
         self.targeting_order = self.targeting()
 
     # When a Character Object is printed, it will display their name
@@ -21,6 +22,13 @@ class Character:
     # When a list is printed that contains a Character Object, the Character's name will display
     def __repr__(self):
         return self.name
+    
+    # This will add a Character as a Team Member
+    def add_team_member(self, ally):
+        if isinstance(ally, list):
+            self.team_members.extend(ally)
+        else:
+            self.team_members.append(ally)
     
     # Dictionary for the Class priority order
     def targeting(self):

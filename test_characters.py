@@ -17,8 +17,13 @@ Galaxy = Character("Galaxy", "Archer", 125, 25, 25, 7, 10, 3, "Air", "Dark")
 Akame = Character("Akame", "Warrior", 100, 31, 20, 12, 10, 6, "Fire", "Dark")
 Emron = Character("Emron", "Warrior", 100, 31, 15, 15, 10, 4, "Fire", "Earth")
 
+# Test printing Emron's name
 print(Emron)
 
+# Test printing a Character names when using a list
 debug_team = [Emron, Jinxx, Lotus, Goat]
-
 print(debug_team)
+
+# Test add_team_member()
+Emron.add_team_member(Akame)
+print(Emron.team_members)
