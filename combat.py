@@ -77,9 +77,11 @@ def take_action(team, character):
 
     if action == "Physical":
         character.deal_damage(target, "strength")
+        ko_character(team, target)
     
     if action == "Magical":
         character.deal_damage(target, "magic_power")
+        ko_character(team, target)
 
     if action == "Heal":
         needs_healing = any(
@@ -94,6 +96,7 @@ def take_action(team, character):
         else:
             # No one to heal, so Cleric's can attack instead (for a single point of damage)
             character.deal_damage(target, "strength")
+            ko_character(team, target)
 
 # This will obtain the correct team for the Character to use their action on
 def determine_character_list(t1, t2, character):
