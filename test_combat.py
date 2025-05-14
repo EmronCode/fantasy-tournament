@@ -1,5 +1,5 @@
 from characters import Character
-from combat import get_moves, determine_target
+from combat import get_moves, determine_target, select_move
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -29,3 +29,10 @@ print(get_moves(Beastie))
 print(determine_target(debug_team, Emron))
 print(determine_target(debug_team, Galaxy))
 print(determine_target(debug_team, Beastie))
+
+# Test select_move()
+print(select_move(Emron, Sun)) # Class = Warrior, thus Physical
+print(select_move(Jinxx, Night)) # Class = Mage, thus Magical
+print(select_move(Night, Gold)) # STR = 20, MG_PW = 25, thus Magical
+print(select_move(Goat, Peachy)) # STR = 31, MG_PW = 20, thus Physical
+print(select_move(Beastie, Stone)) # Class = Cleric, thus Heal
