@@ -1,4 +1,5 @@
 from characters import Character
+from match import quick_add_team_member
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -21,9 +22,14 @@ Emron = Character("Emron", "Warrior", 100, 31, 15, 15, 10, 4, "Fire", "Earth")
 print(Emron)
 
 # Test printing a Character names when using a list
-debug_team = [Emron, Jinxx, Lotus, Goat]
+debug_team = [Moon, Jinxx, Lotus, Goat]
 print(debug_team)
 
 # Test add_team_member()
 Emron.add_team_member(Akame)
 print(Emron.team_members)
+
+# Test quick_add_team_member()
+quick_add_team_member(debug_team)
+print(Lotus.team_members)
+print(Goat.team_members)

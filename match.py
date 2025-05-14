@@ -18,6 +18,12 @@ def set_turn_list(t1, t2):
     print(turn_list)
     return turn_list
 
+# Will quickly add all the Characters as each other's Team Members
+def quick_add_team_member(team):
+    team_list = list(team)
+    for character in team_list:
+        character.add_team_member([member for member in team_list if member != character])
+
 # Will play a simulation of a single fight
 def play(whole_t1, whole_t2):
     set_turn_list(whole_t1, whole_t2)
