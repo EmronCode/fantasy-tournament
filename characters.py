@@ -13,6 +13,10 @@ class Character:
         self.element_1 = element_1
         self.element_2 = element_2
 
-        def __str__(self):
-            return self.name
-        
+    # When a Character Object is printed, it will display their name
+    def __str__(self):
+        return self.name
+    
+    # When a list is printed that contains a Character Object, the Character's name will display
+    def __repr__(self):
+        return self.name
