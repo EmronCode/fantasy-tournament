@@ -98,6 +98,10 @@ def simulate_all_battles():
                 # Use the original objects instead of deepcopies
                 play(team1, team2)
 
+                # Print progress every 5000 battles
+                if len(used_matchups) % 5000 == 0:
+                    print(f"{len(used_matchups)} battles simulated so far...")
+
 # Run simulate_battle()
 # simulate_battle(1000)
 

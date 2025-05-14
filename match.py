@@ -2,6 +2,9 @@ import os
 import json
 from combat import take_action, determine_character_list
 
+# DEBUG MODE
+DEBUG_MODE = False
+
 # Define path
 DATA_FOLDER = "data"
 BATTLE_LOG_FILE = os.path.join(DATA_FOLDER, "battle_data.json")
@@ -20,6 +23,11 @@ if os.path.exists(BATTLE_LOG_FILE):
 else:
     battle_log = []
 
+# Will print if in DEBUG MODE
+def print_debug(message):
+    if DEBUG_MODE:
+        print(message)
+
 # Will return a list from fastest to slowest Characters
 def set_turn_list(t1, t2):
     character_list = t1 + t2
@@ -37,7 +45,7 @@ def set_turn_list(t1, t2):
 
         turn_list.append(temp_character)
 
-    print(turn_list)
+    print_debug(turn_list)
     return turn_list
 
 # Will quickly add all the Characters as each other's Team Members
@@ -55,8 +63,8 @@ def quick_reset_all(team):
 # Will check to see if a team has won
 def win(t1, t2, whole_team, team):
     log_battle(t1, t2, whole_team, team)
-    print("WINNERS: " + ", ".join(str(character) for character in whole_team))
-    print("STILL STANDING: " + ", ".join(str(character) for character in team))
+    print_debug("WINNERS: " + ", ".join(str(character) for character in whole_team))
+    print_debug("STILL STANDING: " + ", ".join(str(character) for character in team))
 
 # Will play a simulation of a single fight
 def play(whole_t1, whole_t2):
@@ -86,17 +94,17 @@ def play(whole_t1, whole_t2):
             alive_t2 = len(t2)
             game_over = alive_t1 < 1 or alive_t2 < 1
 
-        print("END OF TURNS")
-        print(" ")
-        print("Character's HEALTH")
+        print_debug("END OF TURNS")
+        print_debug(" ")
+        print_debug("Character's HEALTH")
         turn_list = set_turn_list(t1, t2)
 
         for character in turn_list:
-            print(character.name + ": " + str(character.health))
+            print_debug(character.name + ": " + str(character.health))
 
-        print(" ")
-        print(" ")
-        print(" ")
+        print_debug(" ")
+        print_debug(" ")
+        print_debug(" ")
 
     if alive_t1 > 0:
         win(whole_t1, whole_t2, whole_t1, t1)
