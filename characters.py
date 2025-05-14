@@ -12,6 +12,7 @@ class Character:
         self.speed = speed
         self.element_1 = element_1
         self.element_2 = element_2
+        self.targeting_order = self.targeting()
 
     # When a Character Object is printed, it will display their name
     def __str__(self):
@@ -32,3 +33,4 @@ class Character:
         }
 
         return priority_dict[self.role]
+    

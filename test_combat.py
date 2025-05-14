@@ -1,5 +1,5 @@
 from characters import Character
-from combat import get_moves
+from combat import get_moves, determine_target
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -18,6 +18,14 @@ Galaxy = Character("Galaxy", "Archer", 125, 25, 25, 7, 10, 3, "Air", "Dark")
 Akame = Character("Akame", "Warrior", 100, 31, 20, 12, 10, 6, "Fire", "Dark")
 Emron = Character("Emron", "Warrior", 100, 31, 15, 15, 10, 4, "Fire", "Earth")
 
+debug_team = [Emron, Jinxx, Lotus, Goat]
+
+# Test get_moves()
 print(get_moves(Emron))
 print(get_moves(Galaxy))
 print(get_moves(Beastie))
+
+# Test determine_target()
+print(determine_target(debug_team, Emron))
+print(determine_target(debug_team, Galaxy))
+print(determine_target(debug_team, Beastie))
