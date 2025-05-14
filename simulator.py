@@ -1,4 +1,7 @@
 import os
+import json
+import random
+import copy
 from characters import Character
 from match import play
 
@@ -26,6 +29,46 @@ BATTLE_LOG_FILE = os.path.join(DATA_FOLDER, "battle_data.json")
 # Ensure data folder exists
 os.makedirs(DATA_FOLDER, exist_ok=True)
 
+# Load existing data
+if os.path.exists(BATTLE_LOG_FILE):
+    with open(BATTLE_LOG_FILE, "r") as f:
+        try:
+            battle_log = json.load(f)
+        except json.JSONDecodeError:
+            battle_log = []
+else:
+    battle_log = []
+
 # List of all characters
 character_list = [Jinxx, Peachy, Gold, Night, Shortie, Sun, Moon, Lotus,
                   Stone, Goat, Fury, Ghost, Beastie, Galaxy, Akame, Emron]
+
+# Simulate 1000 random battles (no repeats)
+def simulate_battle(num_battles=1000):
+    # Store past matchups to avoid repeats
+    used_matchups = set()
+
+    for _ in range(num_battles):
+        # Generate unique team1
+        team1 = random.sample(character_list, 4)
+
+        # Generate unique team2 (no using Characters that are on team1)
+        remaining_characters = [character for character in character_list if character not in team1]
+        team2 = random.sample(remaining_characters, 4)
+
+        # Clone characters to reset their health and stats before battle
+        team1 = [copy.deepcopy(character) for character in team1]
+        team2 = [copy.deepcopy(character) for character in team2]
+
+        # Store the matchup to used_matchups
+        matchup = frozenset([tuple(team1), tuple(team2)])
+
+        # Ensure variety in matchups
+        if matchup not in used_matchups:
+            used_matchups.add(matchup)
+
+            # Simulate a battle
+            play(team1, team2)
+
+# Run simulate_battle()
+simulate_battle(1000)
