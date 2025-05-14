@@ -1,5 +1,5 @@
 from characters import Character
-from combat import get_moves, determine_target, select_move
+from combat import get_moves, determine_target, select_move, take_action
 
 Jinxx = Character("Jinxx", "Mage", 75, 15, 31, 10, 15, 10, "Light", "Dark")
 Peachy = Character("Peachy", "Mage", 75, 18, 25, 10, 15, 11, "Fire", "Light")
@@ -25,10 +25,14 @@ print(get_moves(Emron))
 print(get_moves(Galaxy))
 print(get_moves(Beastie))
 
+print(" ")
+
 # Test determine_target()
 print(determine_target(debug_team, Emron))
 print(determine_target(debug_team, Galaxy))
 print(determine_target(debug_team, Beastie))
+
+print(" ")
 
 # Test select_move()
 print(select_move(Emron, Sun)) # Class = Warrior, thus Physical
@@ -36,3 +40,20 @@ print(select_move(Jinxx, Night)) # Class = Mage, thus Magical
 print(select_move(Night, Gold)) # STR = 20, MG_PW = 25, thus Magical
 print(select_move(Goat, Peachy)) # STR = 31, MG_PW = 20, thus Physical
 print(select_move(Beastie, Stone)) # Class = Cleric, thus Heal
+
+print(" ")
+
+# Test take_action()
+# Before Team Health
+print(str(Gold) + ' ' + str(Gold.health) + '/' + str(Gold.max_health))
+print(str(Jinxx) + ' ' + str(Jinxx.health) + '/' + str(Jinxx.max_health))
+print(str(Shortie) + ' ' + str(Shortie.health) + '/' + str(Shortie.max_health))
+
+# Night takes action and attacks
+take_action([Jinxx, Gold, Shortie], Night)
+print("Night Attacks!")
+
+# After Team Health
+print(str(Gold) + ' ' + str(Gold.health) + '/' + str(Gold.max_health))
+print(str(Jinxx) + ' ' + str(Jinxx.health) + '/' + str(Jinxx.max_health))
+print(str(Shortie) + ' ' + str(Shortie.health) + '/' + str(Shortie.max_health))

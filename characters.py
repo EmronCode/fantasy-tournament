@@ -5,6 +5,7 @@ class Character:
         self.name = name
         self.role = role
         self.health = health
+        self.max_health = health
         self.strength = strength
         self.magic_power = magic_power
         self.defense = defense
@@ -30,6 +31,28 @@ class Character:
         else:
             self.team_members.append(ally)
     
+    # This will deal damage to an opponent
+    def deal_damage(self, opponent, attack_type: str):
+        attack_type_dict = {
+            "strength": "defense",
+            "magic_power": "magic_defense"
+        }
+
+        attack_stat = getattr(self, attack_type)
+        defense_stat = getattr(opponent, attack_type_dict[attack_type])
+
+        # The damage is the difference between the attacker's attack stat and the opponents defense stat
+        # The damage will at minimum do 1 point of damage
+        damage = max(1, attack_stat - defense_stat)
+        opponent.health -= damage
+
+    # This will heal a Character for 10 HP
+    def heal(self, ally):
+        ally.health += 10
+
+        if ally.health > ally.max_health:
+            ally.health = ally.max_health
+
     # Dictionary for the Class priority order
     def targeting(self):
         priority_dict = {

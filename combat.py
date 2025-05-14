@@ -16,9 +16,9 @@ def determine_target(character_list, targeter):
     index = 0
     
     while index < len(targeter.targeting_order):
-        target_list = [character for character in character_list if
-                       character.role == priority_order[index] and
-                       character.health > 0]
+        target_list = [character for character in character_list if 
+                           character.role == priority_order[index] and
+                           character.health > 0]
         
         if target_list:
             break
@@ -62,3 +62,28 @@ def select_move(character, target):
         # If the target has same defense and magic defense stat, then use Physical
         if target.defense == target.magic_defense:
             return move_list[move_list.index("Physical")]
+
+# This will allow the Character to take an action
+def take_action(team, character):
+    target = determine_target(team, character)
+    action = select_move(character, character)
+
+    if action == "Physical":
+        character.deal_damage(target, "strength")
+    
+    if action == "Magical":
+        character.deal_damage(target, "magic_power")
+
+    if action == "Heal":
+        needs_healing = any(
+            ally.health > 0 and ally.health < ally.max_health
+            for ally in character.team_members
+        )
+
+        if needs_healing:
+            for ally in character.team_members:
+                if ally.health > 0 and ally.health < ally.max_health:
+                    character.heal(ally)
+        else:
+            # No one to heal, so Cleric's can attack instead (for a single point of damage)
+            character.deal_damage(target, "strength")
