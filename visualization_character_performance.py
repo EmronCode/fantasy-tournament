@@ -42,6 +42,41 @@ def assign_color(row):
 
 character_df["color"] = character_df.apply(assign_color, axis=1)
 
+# Plot combined Top 5 Strongest and Weakest Characters by Win Rate
+def plot_top_weakest_strongest(df):
+    # Sort and get top 5 and bottom 5
+    top_5 = df.nsmallest(5, "rank").sort_values(by="rank")
+    bottom_5 = df.nlargest(5, "rank").sort_values(by="rank")
+
+    # Combine for plotting
+    combined_df = pd.concat([top_5, bottom_5])
+
+    # Custom darker blue and red gradient
+    blue_palette = sns.color_palette("Blues_r", len(top_5))
+    red_palette = sns.color_palette("Reds", len(bottom_5))
+
+    # Manually adjust the colors to ensure better contrast
+    blue_palette = [(r * 0.7, g * 0.7, b * 1.0) for r, g, b in blue_palette]
+    red_palette = [(r * 1.0, g * 0.4, b * 0.4) for r, g, b in red_palette]
+
+    combined_colors = blue_palette + red_palette
+
+    # Plot the bars
+    plt.figure(figsize=(12, 8))
+    ax = sns.barplot(x="name", y="win_rate", data=combined_df, palette=combined_colors)
+
+    # Ranks
+    for i, (name, win_rate, rank) in enumerate(zip(combined_df['name'], combined_df['win_rate'], combined_df['rank'])):
+        ax.text(i, win_rate, f"#{rank}", ha="center", color="black", fontsize=12)
+
+    ax.set_title("Top 5 Strongest and Weakest Characters by Win Rate")
+    ax.set_xlabel("Character")
+    ax.set_ylabel("Win Rate")
+    ax.tick_params(axis="x", rotation=45)
+
+    plt.tight_layout
+    plt.show()
+
 # Plot all of the Characters
 def plot_all_characters(df):
     df_sorted = df.sort_values(by="rank")
@@ -126,6 +161,7 @@ def plot_role_performance(df):
     plt.tight_layout()
     plt.show()
 
+plot_top_weakest_strongest(character_df)
 plot_all_characters(character_df)
 plot_elo_ratings(character_df)
 plot_role_performance(character_df)
