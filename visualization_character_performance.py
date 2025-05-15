@@ -100,5 +100,32 @@ def plot_elo_ratings(df):
     plt.tight_layout()
     plt.show()
 
+# Plot Role Performance
+def plot_role_performance(df):
+    # Group and calculate role averages
+    role_analysis = df.groupby("role")[["win_rate", "survival_rate", "contribution_score"]].mean()
+
+    # Reset index to get role names for plotting
+    role_analysis = role_analysis.reset_index()
+
+    # Melt the DataFrame to a long format for grouped bar plotting
+    role_analysis_melted = pd.melt(role_analysis, id_vars="role",
+                                   value_vars=["win_rate", "survival_rate", "contribution_score"],
+                                   var_name="Metric", value_name="Score")
+    
+    # Plot the grouped bar chart
+    plt.figure(figsize=(12, 8))
+    sns.barplot(x="role", y="Score", hue="Metric", data=role_analysis_melted, palette="viridis")
+
+    plt.title("Role Performance Comparision (Win Rate, Survival Rate, Contribution Score)")
+    plt.xlabel("Role")
+    plt.ylabel("Score")
+    plt.legend(title="Metric")
+    plt.grid(axis="y", linestyle="--", alpha=0.7)
+    
+    plt.tight_layout()
+    plt.show()
+
 plot_all_characters(character_df)
 plot_elo_ratings(character_df)
+plot_role_performance(character_df)
