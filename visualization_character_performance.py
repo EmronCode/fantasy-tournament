@@ -63,4 +63,42 @@ def plot_all_characters(df):
     plt.tight_layout()
     plt.show()
 
+# Plot Elo Ratings for all Characters
+def plot_elo_ratings(df):
+    plt.figure(figsize=(12, 6))
+
+    # Sort data
+    sorted_df = df.sort_values(by="elo_rating", ascending=False)
+
+    # Adjust the color palette
+    colors = sns.color_palette("crest", len(sorted_df))
+
+    # Plot the bars
+    sns.barplot(x="name", y="elo_rating", data=sorted_df, palette=colors, hue="name", legend=False)
+    plt.axhline(0, color="black", linewidth=1.5, linestyle="-") # Add zero line
+
+    # Calculate a fixed proportional gap based on plot height
+    y_max = sorted_df["elo_rating"].max()
+    y_min = sorted_df["elo_rating"].min()
+    gap_positive = (y_max - y_min) * 0.02
+    gap_negative = (y_min - y_max) * 0.02
+
+    # Elo ratings color based on positive/negative
+    for index, row in enumerate(sorted_df.itertuples()):
+        color = "blue" if row.elo_rating >= 0 else "red"
+        if row.elo_rating >= 0:
+            plt.text(index, row.elo_rating + gap_positive, f"{row.elo_rating:.1f}",
+                     ha="center", va="center", fontsize=10, color=color)
+        else:
+            plt.text(index, row.elo_rating - gap_negative, f"{row.elo_rating:.1f}",
+                     ha="center", va="center", fontsize=10, color=color)
+            
+    plt.title("Elo Ratings of Characters")
+    plt.xlabel("Character")
+    plt.ylabel("Elo Rating")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
 plot_all_characters(character_df)
+plot_elo_ratings(character_df)
