@@ -54,8 +54,8 @@ for _, battle in df.iterrows():
                 character_results[character]["survived"] += 1
 
     # Calculate team average Elos
-    team1_elo = sum(elo_ratings[character] for character in team1)
-    team2_elo = sum(elo_ratings[character] for character in team2)
+    team1_elo = sum(elo_ratings[character] for character in team1) / len(team1)
+    team2_elo = sum(elo_ratings[character] for character in team2) / len(team2)
 
     # Calculate expected scores (this formula could be SO wrong)
     E1 = 1 / (1 + 10 ** ((team2_elo - team1_elo) / 400))

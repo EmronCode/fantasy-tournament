@@ -63,7 +63,7 @@ def select_move(character, target):
             return move_list[move_list.index("Physical")]
         
         # If target has a lower magic defense, then use Magical
-        if target.defense < target.magic_defense:
+        if target.defense > target.magic_defense:
             return move_list[move_list.index("Magical")]
         
         # If the target has same defense and magic defense stat, then use Physical
@@ -73,7 +73,7 @@ def select_move(character, target):
 # This will allow the Character to take an action
 def take_action(team, character):
     target = determine_target(team, character)
-    action = select_move(character, character)
+    action = select_move(character, target)
 
     if action == "Physical":
         character.deal_damage(target, "strength")

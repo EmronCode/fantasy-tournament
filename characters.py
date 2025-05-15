@@ -55,8 +55,8 @@ class Character:
 
     # This will heal a Character for 10 HP
     def heal(self, ally):
-        # Limits the heal move to a total 64 times per match
-        if self.heal_count < 64:
+        # Limits the heal move to a total 256 times per match
+        if self.heal_count < 256:
             self.heal_count += 1
 
             ally.health += 10
